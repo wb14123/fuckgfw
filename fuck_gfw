@@ -11,10 +11,14 @@ start () {
 	service_start /usr/bin/ss-redir -c /etc/shadowsocks.json
 	service_start /usr/bin/ss-tunnel -c /etc/shadowsocks.json -l 7913 -L 8.8.8.8:53 -u
 	/usr/bin/fuck_gfw.sh
+	cp /etc/fuckgfw/fuckgfw_dns.conf /etc/dnsmasq.d
+	/etc/init.d/dnsmasq restart
 }
 
 stop () {
 	service_stop /usr/bin/ss-redir
 	service_stop /usr/bin/ss-tunnel
 	/etc/init.d/firewall restart
+	rm /etc/dnsmasq.d/fuckgfw_dns.conf
+	/etc/init.d/dnsmasq restart
 }
